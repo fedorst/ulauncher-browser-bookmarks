@@ -14,6 +14,44 @@
       "name": "Browser Bookmarks extension",
       "description": "The keyword to start the Browser Bookmarks extension",
       "default_value": "b"
+    },
+    {
+      "id": "search_chromium",
+      "type": "select",
+      "options": [ "yes", "no" ],
+      "name": "Search Chromium bookmarks",
+      "description": "Search Chromium bookmarks",
+      "default_value": "yes"
+    },
+    {
+      "id": "search_chrome",
+      "type": "select",
+      "options": [ "yes", "no" ],
+      "name": "Search Chrome bookmarks",
+      "description": "Search Chrome bookmarks",
+      "default_value": "yes"
+    },
+    {
+      "id": "search_brave",
+      "type": "select",
+      "options": [ "yes", "no" ],
+      "name": "Search Brave bookmarks",
+      "description": "Search Brave bookmarks",
+      "default_value": "yes"
+    },
+    {
+      "id": "search_firefox",
+      "type": "select",
+      "options": [ "yes", "no" ],
+      "name": "Search Firefox bookmarks",
+      "description": "Search Firefox bookmarks",
+      "default_value": "yes"
+    },
+    {
+      "id": "firefox_profile",
+      "type": "text",
+      "name": "Firefox profile path",
+      "description": "Firefox profile name as defined in profiles.ini. If left empty, default profile will be inferred. Looks like 'Profile0'"
     }
   ]
 }
