@@ -253,7 +253,8 @@ class PreferencesEventListener(EventListener):
 class PreferencesUpdateEventListener(EventListener):
     allowed_event_ids = ["search_chrome", "search_chromium", "search_brave", "search_firefox", "firefox_profile"]
     def on_event(self, event, extension):
-        extension.set_pref(event.id, event.new_value)
+        if event.id in self.allowed_event_ids:
+            extension.set_pref(event.id, event.new_value)
 
 class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
