@@ -48,10 +48,18 @@
       "default_value": "yes"
     },
     {
+      "id": "search_snapfirefox",
+      "type": "select",
+      "options": [ "yes", "no" ],
+      "name": "Search Firefox (snap) bookmarks",
+      "description": "Search Firefox (snap) bookmarks",
+      "default_value": "yes"
+    },
+    {
       "id": "firefox_profile",
       "type": "text",
       "name": "Firefox profile path",
-      "description": "Firefox profile name as defined in profiles.ini. If left empty, default profile will be inferred. Looks like 'Profile0'"
+      "description": "Firefox (also snap Firefox) profile name as defined in profiles.ini. If left empty, default profile will be inferred. Looks like 'Profile0'"
     }
   ]
 }

@@ -52,8 +52,11 @@ class BookmarksHandler(ABC):
 # adapted from https://github.com/KuenzelIT/ulauncher-firefox-bookmarks/tree/master
 class FirefoxBookmarksHandler(BookmarksHandler):
     def __init__(self, name, path, image, max_matches_len):
-        super().__init__(name, path, image, max_matches_len)
+        super().__init__(name, path, image, max_matches_len) # TODO: make it possible to NOT have it
         history_location = self.search_places()
+        if history_location is None:
+            logger.log(f"History location not found at {path} for browser {name}.")
+            return
         temporary_history_location = tempfile.mktemp()
         shutil.copyfile(history_location, temporary_history_location) # because DB is locked while firefox is open
         #   Open Firefox history database
@@ -82,10 +85,12 @@ class FirefoxBookmarksHandler(BookmarksHandler):
         # TODO: make isRelative=0 possible
         return profile_config.get("Profile0", "Path") 
 
-    def search_places(self) -> str:
+    def search_places(self) -> str|None:
         #   Firefox folder path
         firefox_path = os.path.join(os.environ['HOME'], self.path + "/")
         #   Firefox profiles configuration file path
+        if not os.path.exists(firefox_path):
+            return None
         conf_path = os.path.join(firefox_path,'profiles.ini')
         #   Profile config parse
         profile_config = configparser.RawConfigParser()
@@ -124,12 +129,15 @@ class FirefoxBookmarksHandler(BookmarksHandler):
         return rows
 
     def close(self):
-        self.conn.close()
+        if self.conn is not None:
+            self.conn.close()
 
     def get_bookmarks(self, query: str) -> List[ExtensionResultItem]:
         if query is None:
             query = ''
         items = []
+        if self.conn is None:
+            return items
         if not self.active:
             return items
         rows = self.fetch_rows(query)
@@ -240,6 +248,12 @@ support_browsers = {
     "firefox": {
         "name": "Firefox",
         "path": ".mozilla/firefox",
+        "image": "images/firefox.png",
+        "handler": FirefoxBookmarksHandler
+    },
+    "snapfirefox": {
+        "name": "Firefox (snap)",
+        "path": "/snap/firefox/common/.mozilla/firefox",
         "image": "images/firefox.png",
         "handler": FirefoxBookmarksHandler
     }
